@@ -1,54 +1,137 @@
 # Q-Commerce Monitor - Smart Spending Analytics
 
-This is the final year project ready for the viva presentation! The application is currently configured to run in **Mock Demo Mode**, which means it does NOT require the Python backend to run the presentation. The frontend has a built-in mock engine that supplies rich, realistic data (15 items, dynamic syncing, etc.) to showcase all "WOW" features instantly.
+A smart spending analytics platform that compares prices across Q-Commerce platforms (Blinkit, Zepto, Swiggy Instamart), tracks purchases via Gmail sync, and provides nutrition insights.
 
-## How to Run the Presentation on Any PC
-
-Because the app is in Mock Mode, running it is incredibly simple on your friend's PC:
-
-### Option 1: Double-Click (Easiest)
-1. Extract the project folder on the new PC.
-2. Navigate to the `frontend/` folder.
-3. Double-click `index.html` to open it in Chrome or Edge.
-4. *Note: Local file restrictions in some browsers might block some JS features. If charts don't load, use Option 2.*
-
-### Option 2: Live Server (Recommended for perfect rendering)
-1. Install [Visual Studio Code](https://code.visualstudio.com/).
-2. Open the project folder in VS Code.
-3. Go to Extensions (Ctrl+Shift+X) and install **"Live Server"** by Ritwick Dey.
-4. Right-click on `frontend/index.html` and select **"Open with Live Server"**.
-5. The presentation will pop up in your default browser.
+> **Demo Mode is ON by default.** No backend/database needed for the presentation. Everything works out of the box.
 
 ---
 
-## Running the Full Stack (Optional - Not needed for Viva)
+## Quick Start — Run the Presentation
 
-If you *want* to run the backend Python server to show real database connectivity:
+### Prerequisites
+- A modern browser (Chrome / Edge recommended)
+- [Visual Studio Code](https://code.visualstudio.com/) (recommended)
+- [Git](https://git-scm.com/downloads) (to clone the repo)
 
-1. **Install Python**: Make sure Python 3.9+ is installed.
-2. **Install Dependencies**: Open a terminal in the root folder and run:
+### Step 1: Clone the Repository
+```bash
+git clone https://github.com/kanishka65/finalyr.git
+```
+
+### Step 2: Open in VS Code
+```
+Open VS Code → File → Open Folder → select the cloned "finalyr" folder
+```
+
+### Step 3: Install Live Server Extension
+1. Press `Ctrl+Shift+X` to open Extensions.
+2. Search for **"Live Server"** by Ritwick Dey.
+3. Click **Install**.
+
+### Step 4: Launch the App
+1. In VS Code's file explorer, navigate to `frontend/index.html`.
+2. Right-click on `index.html` → **"Open with Live Server"**.
+3. The app opens in your browser automatically.
+
+### Step 5: Use the App
+1. **Login**: Enter any email/password (e.g., `test@example.com` / `password`) and click Sign In.
+2. **Dashboard**: Shows 15-item live price comparison, KPI cards, and stock alerts.
+3. **Spending Analytics**: View the spending heatmap, budget tracker, and category breakdown.
+4. **Health & Nutrition**: See your nutrition health score (78), calorie tracker, macros, and smart advice.
+5. **Purchases**: View order history and use the Gmail sync dropdown.
+
+---
+
+## Alternative: No VS Code Available
+
+If VS Code is not available, you can also use Python's built-in server:
+```bash
+cd finalyr/frontend
+python -m http.server 8000
+```
+Then open `http://localhost:8000` in your browser.
+
+Or with Node.js:
+```bash
+cd finalyr/frontend
+npx -y http-server -p 8000
+```
+
+Or simply **double-click** `frontend/index.html` to open it directly (some chart features may not render due to browser file:// restrictions).
+
+---
+
+## Project Structure
+
+```
+finalyr/
+├── README.md                 # This file
+├── requirements.txt          # Python dependencies (for full stack only)
+├── frontend/
+│   ├── index.html            # Main entry point + Nuclear WOW Injection
+│   ├── api.js                # Mock data engine (intercepts all API calls)
+│   ├── dashboard.js          # Dashboard rendering (KPIs, comparisons, heatmap)
+│   ├── purchases.js          # Purchase history view
+│   ├── nutrition.js          # Health & Nutrition advisor
+│   ├── heatmap.js            # D3.js heatmap visualization
+│   ├── gmail_sync.js         # Gmail sync UI logic
+│   ├── auth.js               # Authentication (mock login)
+│   ├── state.js              # App state management
+│   ├── app.css               # All styling (dark theme)
+│   └── assets/               # Images and icons
+├── backend/
+│   ├── run.py                # Flask server entry point
+│   ├── app/
+│   │   ├── routes/           # API endpoints
+│   │   ├── services/         # Business logic
+│   │   └── models/           # MongoDB models
+│   └── ...
+└── technical_documentation.md
+```
+
+---
+
+## Running the Full Stack (Optional — NOT needed for Viva)
+
+Only if you want to demonstrate real backend connectivity:
+
+1. **Install Python 3.9+**
+2. **Install dependencies**:
    ```bash
+   cd finalyr
    pip install -r requirements.txt
    ```
-3. **Start the Backend**: Navigate to the `backend/` folder and run:
+3. **Start MongoDB** (must be running on default port 27017)
+4. **Start the backend**:
    ```bash
+   cd backend
    python run.py
    ```
-4. **Disable Mock Mode**: Edit `frontend/index.html` and change:
-   ```javascript
-   window.USE_MOCK = true;
-   ```
-   to
-   ```javascript
-   window.USE_MOCK = false;
-   ```
+5. **Disable Mock Mode** — Edit `frontend/index.html`, find `window.USE_MOCK = true;` and change to `false`
+6. **Edit** `frontend/api.js`, find `const USE_MOCK = true;` and change to `false`
 
 ---
 
-## Key Presentation Talking Points
-- **Architecture**: Separated frontend (Vanilla JS/Bootstrap) and backend (Flask/MongoDB).
-- **Mock Engine**: Intercepts HTTP fetch calls to serve realistic latency and JSON data without a server (`frontend/api.js`).
-- **Algorithms**: Uses Fuzzy String Matching for mapping product items, simple linear regression for predictions, and D3.js interpolation for the heatmap.
-- **Nuclear WOW Injection**: We hardcoded the 15-item live price comparison directly into the index to absolutely guarantee the demo works flawlessly during the presentation.
+## Tech Stack
 
-Good luck with the Viva!
+| Layer      | Technology                          |
+|------------|-------------------------------------|
+| Frontend   | Vanilla JS, Bootstrap 5, D3.js     |
+| Backend    | Python Flask, MongoDB               |
+| Auth       | JWT Tokens, Google OAuth (Gmail)    |
+| Algorithms | Fuzzy String Matching, Linear Regression |
+
+---
+
+## Key Features for Viva
+
+- **Cross-Platform Price Comparison**: Compares 15 grocery items across Blinkit, Zepto, and Swiggy Instamart in real time
+- **Mock Data Engine**: `api.js` intercepts all HTTP fetch calls and returns realistic JSON with simulated latency — no server required
+- **Spending Heatmap**: D3.js-powered 7×24 grid showing spending intensity by day and hour
+- **Nutrition Advisor**: Tracks calorie intake, macronutrient distribution, and provides smart dietary recommendations
+- **Gmail Sync**: OAuth-based email parsing to auto-extract purchase orders from delivery confirmations
+- **Budget Tracker**: Visual budget utilization with category-wise breakdown and trend analysis
+
+---
+
+Good luck with the Viva! 🎯
