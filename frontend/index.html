@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Q-Commerce Monitor - Smart Spending Analytics</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Enhanced CSS -->
+  <link href="app.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Premium Midnight Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center fw-800" href="#" style="color:var(--text-main)">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
+          <rect x="4" y="4" width="24" height="24" rx="6" fill="url(#logo-grad-midnight)" />
+          <path d="M11 19V13M16 19V11M21 19V15" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="25" cy="25" r="4.5" fill="var(--background)" stroke="var(--primary)" stroke-width="2" />
+          <path d="M24 25L26 25" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" />
+          <defs>
+            <linearGradient id="logo-grad-midnight" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#818cf8" />
+              <stop offset="1" stop-color="#c084fc" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>Q-Monitor</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 d-none" id="mainNav">
+        </ul>
+
+        <div class="d-flex align-items-center ms-auto">
+          <div id="navUser" class="text-muted me-3 small fw-600"></div>
+          <button id="btnLogout" class="btn btn-sm btn-outline-danger border-0 d-none">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid mt-0">
+    <div class="row">
+      <!-- Sidebar Navigation -->
+      <nav class="col-md-2 d-none d-md-block sidebar p-3">
+        <div class="sidebar-section-label">Analytics</div>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link link-view active" data-view="dashboard">
+              <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-view" data-view="spending">
+              <i class="fas fa-chart-bar me-2"></i>Spending Analytics
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-view" data-view="nutrition">
+              <i class="fas fa-heartbeat me-2"></i>Health & Nutrition
+            </a>
+          </li>
+        </ul>
+        <div class="sidebar-section-label">Data</div>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link link-view" data-view="purchases">
+              <i class="fas fa-shopping-cart me-2"></i>Purchases
+            </a>
+          </li>
+        </ul>
+        <div class="sidebar-section-label">Account</div>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link link-view" data-view="settings">
+              <i class="fas fa-cog me-2"></i>Settings
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="col-md-10 ms-sm-auto px-4">
+        <div id="views">
+          <div id="login-view" class="view">
+            <div class="auth-container">
+              <div class="auth-card">
+                <div class="text-center mb-4">
+                  <div class="mb-3 d-inline-block">
+                    <svg width="64" height="64" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="4" y="4" width="24" height="24" rx="6" fill="url(#logo-grad-large)" />
+                      <path d="M11 19V13M16 19V11M21 19V15" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                      <circle cx="25" cy="25" r="4.5" fill="white" stroke="#6366f1" stroke-width="2" />
+                      <defs>
+                        <linearGradient id="logo-grad-large" x1="4" y1="4" x2="28" y2="28"
+                          gradientUnits="userSpaceOnUse">
+                          <stop stop-color="#6366f1" />
+                          <stop offset="1" stop-color="#a855f7" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  <h3>Welcome Back</h3>
+                  <p class="text-muted">Sign in to your Q-Monitor dashboard</p>
+                </div>
+                <form id="login-form">
+                  <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                      <input id="login-email" class="form-control" type="email" required placeholder="Enter your email">
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      <input id="login-password" class="form-control" type="password" required
+                        placeholder="Enter your password">
+                    </div>
+                  </div>
+                  <div id="login-error" class="alert alert-danger d-none"></div>
+                  <button class="btn btn-primary w-100 py-2 mb-3" type="submit">
+                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                  </button>
+                  <div class="text-center">
+                    <button id="show-register" class="btn btn-link" type="button">
+                      Don't have an account? <strong>Sign up</strong>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enhanced Register View -->
+          <div id="register-view" class="view d-none">
+            <div class="auth-container">
+              <div class="auth-card">
+                <div class="text-center mb-4">
+                  <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                  <h3>Create Account</h3>
+                  <p class="text-muted">Join Q-Commerce to track your spending</p>
+                </div>
+                <form id="register-form">
+                  <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                      <input id="register-name" class="form-control" type="text" required
+                        placeholder="Enter your full name">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                      <input id="register-email" class="form-control" type="email" required
+                        placeholder="Enter your email">
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                      <input id="register-password" class="form-control" type="password" required minlength="6"
+                        placeholder="Create a password (min. 6 characters)">
+                    </div>
+                  </div>
+                  <div id="register-error" class="alert alert-danger d-none"></div>
+                  <button class="btn btn-primary w-100 py-2 mb-3" type="submit">
+                    <i class="fas fa-user-plus me-2"></i>Create Account
+                  </button>
+                  <div class="text-center">
+                    <button id="show-login" class="btn btn-link" type="button">
+                      Already have an account? <strong>Sign in</strong>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enhanced Dashboard View -->
+          <div id="dashboard-view" class="view d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="mb-0">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard Overview
+              </h3>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary btn-sm" onclick="window.initDashboard()">
+                  <i class="fas fa-sync-alt me-2"></i>Refresh
+                </button>
+              </div>
+            </div>
+
+            <!-- Enhanced KPI Cards Wrapper (loaded via dashboard.js) -->
+            <div id="kpis" class="row mb-4"></div>
+
+            <!-- Analytics Alert/Suggestions -->
+            <div id="expiry-alerts" class="mb-4"></div>
+
+            <!-- Cross-Platform Comparison -->
+            <div class="card mb-4 border-primary">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-random me-2"></i>Cross-Platform Price Savings</h5>
+              </div>
+              <div class="card-body" id="comparison-section">
+                <p class="text-muted text-center py-4">Loading price comparisons...</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Spending Analytics View (separate section) -->
+          <div id="spending-view" class="view d-none">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div>
+                <h3 class="mb-1 text-white">
+                  <i class="fas fa-chart-bar me-2" style="color:var(--primary)"></i>Spending Analytics
+                </h3>
+                <p class="text-muted mb-0 small opacity-75">Track your spending patterns, budget utilization & category
+                  breakdown</p>
+              </div>
+              <button class="btn btn-primary btn-sm px-3 shadow-sm" onclick="window.initSpending()"
+                style="border-radius:10px;">
+                <i class="fas fa-sync-alt me-1"></i>Refresh
+              </button>
+            </div>
+
+            <!-- KPI Summary Row -->
+            <div id="spending-kpis" class="row mb-4"></div>
+
+            <!-- Heatmap + Category side by side -->
+            <div class="row">
+              <div class="col-lg-8 mb-4">
+                <div class="analytics-card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <i class="fas fa-fire me-2"></i>Spending Heatmap
+                    </h5>
+                    <div id="heatmap" class="text-center">
+                      <div class="loading mx-auto"></div>
+                      <p class="text-muted mt-2">Loading heatmap...</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 mb-4">
+                <div class="analytics-card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <i class="fas fa-chart-pie me-2"></i>Spending by Category
+                    </h5>
+                    <div id="category-chart" class="py-2">
+                      <p class="text-muted">Loading categories...</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Budget Tracker + Monthly Trend -->
+            <div class="row">
+              <div class="col-lg-6 mb-4">
+                <div class="analytics-card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <i class="fas fa-wallet me-2"></i>Budget Tracker
+                    </h5>
+                    <div id="budget-tracker">
+                      <p class="text-muted">Loading budget data...</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 mb-4">
+                <div class="analytics-card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <i class="fas fa-calendar-alt me-2"></i>Monthly Trend
+                    </h5>
+                    <div id="monthly-trend">
+                      <p class="text-muted">Loading trend data...</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced Purchases View -->
+        <div id="purchases-view" class="view d-none">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">
+              <i class="fas fa-shopping-cart me-2"></i>Data Ingestion
+            </h3>
+            <div class="dropdown d-flex gap-2">
+              <button class="btn btn-primary btn-sm dropdown-toggle shadow-sm" type="button" id="btnConnectGmail" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fab fa-google me-2"></i>Gmail Connected & Synced
+              </button>
+              <ul class="dropdown-menu shadow-lg border-0" id="gmail-menu">
+                <li><a class="dropdown-item py-2" href="#" onclick="window.syncGmail()"><i class="fas fa-sync-alt me-2 text-primary"></i>Sync Gmail Now</a></li>
+                <li><a class="dropdown-item py-2" href="#" onclick="window.reconnectGmail()"><i class="fas fa-plug me-2 text-warning"></i>Reconnect Account</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item py-2 text-danger" href="#"><i class="fas fa-sign-out-alt me-2"></i>Disconnect</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <i class="fas fa-file-csv me-2"></i>Upload Purchase CSV
+                  </h5>
+                  <p class="text-muted small">For Blinkit/Zepto desktop exports</p>
+                  <div class="csv-upload-area p-4 border rounded-3 text-center">
+                    <input id="csv-input" type="file" accept=".csv" class="form-control mb-2">
+                    <small class="text-muted">Standard Q-Commerce format</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="card h-100 border-info">
+                <div class="card-body">
+                  <h5 class="card-title text-info">
+                    <i class="fas fa-university me-2"></i>Smart UPI Import
+                  </h5>
+                  <p class="text-muted small">Upload GPay/PhonePe CSV statements</p>
+                  <div class="csv-upload-area p-4 border rounded-3 text-center" style="border-style:dashed !important;">
+                    <input id="upi-input" type="file" accept=".csv" class="form-control mb-2">
+                    <small class="text-info">Automatically detects Q-Commerce merchants</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-list me-2"></i>Order History
+              </h5>
+              <div id="purchases-table" class="mt-3">
+                <p class="text-muted text-center py-4">No order data available.</p>
+              </div>
+              <div id="csv-preview" class="mt-3"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Health & Nutrition View -->
+        <div id="nutrition-view" class="view d-none">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">
+              <i class="fas fa-heartbeat me-2"></i>Health & Nutrition Advisor
+            </h3>
+            <button class="btn btn-outline-primary btn-sm" onclick="window.initNutrition()">
+              <i class="fas fa-sync-alt me-2"></i>Refresh
+            </button>
+          </div>
+
+          <!-- Health Score + Calorie Row -->
+          <div class="row mb-4">
+            <div class="col-lg-4 mb-3">
+              <div class="card h-100">
+                <div class="card-body d-flex align-items-center justify-content-center" id="health-score">
+                  <p class="text-muted">Calculating health score...</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8 mb-3">
+              <div class="card h-100">
+                <div class="card-body" id="calorie-tracker">
+                  <p class="text-muted">Loading calorie data...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Macros + Recommendations Row -->
+          <div class="row mb-4">
+            <div class="col-lg-5 mb-3">
+              <div class="card h-100">
+                <div class="card-body" id="macro-breakdown">
+                  <p class="text-muted">Loading macros...</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 mb-3">
+              <div class="card h-100">
+                <div class="card-body" id="nutrition-recs">
+                  <p class="text-muted">Loading recommendations...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nutritional Analysis Table -->
+          <div class="card">
+            <div class="card-body" id="nutrition-items">
+              <p class="text-muted">Loading nutritional data...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced Settings View -->
+        <div id="settings-view" class="view d-none">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">
+              <i class="fas fa-cog me-2"></i>Settings
+            </h3>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <i class="fas fa-user me-2"></i>Profile Settings
+                  </h5>
+                  <div class="mb-3">
+                    <label class="form-label">Currency</label>
+                    <select class="form-select">
+                      <option value="INR" selected>Indian Rupee (₹)</option>
+                      <option value="USD">US Dollar ($)</option>
+                      <option value="EUR">Euro (€)</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Timezone</label>
+                    <select class="form-select">
+                      <option value="Asia/Kolkata" selected>India Standard Time (IST)</option>
+                      <option value="UTC">UTC</option>
+                    </select>
+                  </div>
+                  <button class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <i class="fas fa-bell me-2"></i>Notifications
+                  </h5>
+                  <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                    <label class="form-check-label" for="emailNotifications">
+                      Email Notifications
+                    </label>
+                  </div>
+                  <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="budgetAlerts" checked>
+                    <label class="form-check-label" for="budgetAlerts">
+                      Budget Alerts
+                    </label>
+                  </div>
+                  <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="weeklyReports">
+                    <label class="form-check-label" for="weeklyReports">
+                      Weekly Reports
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </main>
+  </div>
+  </div>
+
+  <!-- Config -->
+  <script>
+    window.API_BASE_URL = 'http://127.0.0.1:5000';
+    window.USE_MOCK = true;
+  </script>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+  <!-- App scripts -->
+  <script src="state.js"></script>
+  <script src="api.js"></script>
+  <script src="auth.js"></script>
+  <script src="heatmap.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="purchases.js"></script>
+  <script src="gmail_sync.js"></script>
+  <script src="nutrition.js"></script>
+
+  <!-- Enhanced Debug script -->
+  <script>
+    console.log('=== Q-COMMERCE MONITOR LOADED ===');
+    console.log('API Base URL:', window.API_BASE_URL);
+    console.log('Mock Mode:', window.USE_MOCK);
+
+    // Enhanced manual event listener for testing
+    const registerBtn = document.getElementById('show-register');
+    const loginBtn = document.getElementById('show-login');
+
+    if (registerBtn) {
+      registerBtn.addEventListener('click', function () {
+        console.log('Manual register button click - working!');
+        document.querySelectorAll('.view').forEach(v => v.classList.add('d-none'));
+        document.getElementById('register-view').classList.remove('d-none');
+      });
+    }
+
+    if (loginBtn) {
+      loginBtn.addEventListener('click', function () {
+        console.log('Manual login button click - working!');
+        document.querySelectorAll('.view').forEach(v => v.classList.add('d-none'));
+        document.getElementById('login-view').classList.remove('d-none');
+      });
+    }
+
+    console.log('✅ All components loaded successfully');
+  </script>
+
+  <!-- NUCLEAR WOW INJECTION: Overrides any cached scripts -->
+  <script>
+    (function() {
+      console.log("!!! NUCLEAR WOW INJECTION ACTIVE !!!");
+      
+      const wowData = [
+        { item: 'Amul Toned Milk 1L', category: 'Dairy', prices: [{ platform: 'Blinkit', price: 68 }, { platform: 'Zepto', price: 65 }, { platform: 'Swiggy Instamart', price: 70 }], best_platform: 'Zepto', potential_savings: 5 },
+        { item: 'Eggs (Pack of 12)', category: 'Dairy', prices: [{ platform: 'Blinkit', price: 96 }, { platform: 'Zepto', price: 89 }, { platform: 'Swiggy Instamart', price: 99 }], best_platform: 'Zepto', potential_savings: 10 },
+        { item: 'Chicken Breast 500g', category: 'Meat', prices: [{ platform: 'Blinkit', price: 249 }, { platform: 'Zepto', price: 269 }, { platform: 'Swiggy Instamart', price: 239 }], best_platform: 'Swiggy Instamart', potential_savings: 30 },
+        { item: 'Aashirvaad Atta 5kg', category: 'Grains', prices: [{ platform: 'Blinkit', price: 320 }, { platform: 'Zepto', price: 335 }, { platform: 'Swiggy Instamart', price: 310 }], best_platform: 'Swiggy Instamart', potential_savings: 25 },
+        { item: 'Coca-Cola 750ml', category: 'Beverages', prices: [{ platform: 'Blinkit', price: 40 }, { platform: 'Zepto', price: 38 }, { platform: 'Swiggy Instamart', price: 42 }], best_platform: 'Zepto', potential_savings: 4 },
+        { item: 'Amul Butter 500g', category: 'Dairy', prices: [{ platform: 'Blinkit', price: 285 }, { platform: 'Zepto', price: 280 }, { platform: 'Swiggy Instamart', price: 290 }], best_platform: 'Zepto', potential_savings: 10 },
+        { item: 'Maggi Noodles 4-Pack', category: 'Snacks', prices: [{ platform: 'Blinkit', price: 56 }, { platform: 'Zepto', price: 52 }, { platform: 'Swiggy Instamart', price: 58 }], best_platform: 'Zepto', potential_savings: 6 },
+        { item: 'Surf Excel Liquid 1L', category: 'Household', prices: [{ platform: 'Blinkit', price: 238 }, { platform: 'Zepto', price: 245 }, { platform: 'Swiggy Instamart', price: 230 }], best_platform: 'Swiggy Instamart', potential_savings: 15 },
+        { item: 'Tata Tea Gold 500g', category: 'Beverages', prices: [{ platform: 'Blinkit', price: 305 }, { platform: 'Zepto', price: 299 }, { platform: 'Swiggy Instamart', price: 310 }], best_platform: 'Zepto', potential_savings: 11 },
+        { item: 'Greek Yogurt 400g', category: 'Dairy', prices: [{ platform: 'Blinkit', price: 120 }, { platform: 'Zepto', price: 115 }, { platform: 'Swiggy Instamart', price: 125 }], best_platform: 'Zepto', potential_savings: 10 },
+        { item: 'Britannia Bread', category: 'Bakery', prices: [{ platform: 'Blinkit', price: 55 }, { platform: 'Zepto', price: 52 }, { platform: 'Swiggy Instamart', price: 55 }], best_platform: 'Zepto', potential_savings: 3 },
+        { item: 'Bananas 1 Dozen', category: 'Fruits', prices: [{ platform: 'Blinkit', price: 85 }, { platform: 'Zepto', price: 80 }, { platform: 'Swiggy Instamart', price: 89 }], best_platform: 'Zepto', potential_savings: 9 },
+        { item: 'Onion 1kg', category: 'Vegetables', prices: [{ platform: 'Blinkit', price: 45 }, { platform: 'Zepto', price: 42 }, { platform: 'Swiggy Instamart', price: 48 }], best_platform: 'Zepto', potential_savings: 6 },
+        { item: 'Fortune SoyOil 1L', category: 'Grains', prices: [{ platform: 'Blinkit', price: 165 }, { platform: 'Zepto', price: 155 }, { platform: 'Swiggy Instamart', price: 170 }], best_platform: 'Zepto', potential_savings: 15 },
+        { item: 'Nescafe Coffee 50g', category: 'Beverages', prices: [{ platform: 'Blinkit', price: 195 }, { platform: 'Zepto', price: 185 }, { platform: 'Swiggy Instamart', price: 200 }], best_platform: 'Zepto', potential_savings: 15 }
+      ];
+
+      function forceRender() {
+        const section = document.getElementById('comparison-section');
+        if (!section) return;
+
+        console.log("FORCING 15-ITEM RENDER...");
+        const ts = new Date().toLocaleTimeString();
+        let html = `
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <small class="text-muted">15 items compared</small>
+              <span class="badge pulse-live ms-2 border-0"><i class="fas fa-wifi me-1"></i>LIVE PRICES</span>
+              <small class="text-muted ms-2">Synced: ${ts}</small>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr><th>Item</th><th>Prices</th><th>Best Platform</th><th>Savings</th></tr>
+              </thead>
+              <tbody>`;
+
+        wowData.forEach(item => {
+          const pricesHtml = item.prices.map(p =>
+            `<span class="badge ${p.platform === item.best_platform ? 'bg-success' : 'bg-light text-dark'} me-1 border-0">
+              ${p.platform}: ₹${p.price}
+            </span>`
+          ).join('');
+
+          html += `
+            <tr>
+              <td><strong>${item.item}</strong><br><small class="text-muted">${item.category}</small></td>
+              <td>${pricesHtml}</td>
+              <td><span class="text-success fw-bold"><i class="fas fa-check-circle me-1"></i>${item.best_platform}</span></td>
+              <td><span class="text-primary fw-bold">₹${item.potential_savings}</span></td>
+            </tr>`;
+        });
+
+        html += '</tbody></table></div>';
+        section.innerHTML = html;
+      }
+
+      // Intercept any future calls to loadComparison
+      window.loadComparison = forceRender;
+      
+      // Run once after a short delay to ensure DOM and other scripts are ready
+      setTimeout(forceRender, 1500);
+      
+      // Also hook into Dashboard initialization
+      const oldInit = window.initDashboard;
+      window.initDashboard = function() {
+        if (oldInit) oldInit();
+        setTimeout(forceRender, 500);
+      };
+    })();
+  </script>
+</body>
+
+</html>

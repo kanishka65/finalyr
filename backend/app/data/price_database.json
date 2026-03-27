@@ -1,0 +1,92 @@
+{
+    "Amul Toned Milk 1L": {
+        "category": "Dairy",
+        "blinkit": {
+            "price": 75,
+            "mrp": 80,
+            "in_stock": true
+        },
+        "zepto": {
+            "price": 73,
+            "mrp": 75,
+            "in_stock": true
+        },
+        "swiggy_instamart": {
+            "price": 77,
+            "mrp": 77,
+            "in_stock": true
+        }
+    },
+    "Eggs 12 pack": {
+        "category": "Dairy",
+        "blinkit": {
+            "price": 335,
+            "mrp": 340,
+            "in_stock": true
+        },
+        "zepto": {
+            "price": 333,
+            "mrp": 335,
+            "in_stock": true
+        },
+        "swiggy_instamart": {
+            "price": 337,
+            "mrp": 337,
+            "in_stock": true
+        }
+    },
+    "Chicken Breast 500g": {
+        "category": "Meat",
+        "blinkit": {
+            "price": 260,
+            "mrp": 265,
+            "in_stock": true
+        },
+        "zepto": {
+            "price": 258,
+            "mrp": 260,
+            "in_stock": true
+        },
+        "swiggy_instamart": {
+            "price": 262,
+            "mrp": 262,
+            "in_stock": true
+        }
+    },
+    "Maggi Noodles 4 pack": {
+        "category": "Snacks",
+        "blinkit": {
+            "price": 50,
+            "mrp": 55,
+            "in_stock": true
+        },
+        "zepto": {
+            "price": 48,
+            "mrp": 50,
+            "in_stock": true
+        },
+        "swiggy_instamart": {
+            "price": 52,
+            "mrp": 52,
+            "in_stock": true
+        }
+    },
+    "Surf Excel Liquid 1L": {
+        "category": "Household",
+        "blinkit": {
+            "price": 425,
+            "mrp": 430,
+            "in_stock": true
+        },
+        "zepto": {
+            "price": 423,
+            "mrp": 425,
+            "in_stock": true
+        },
+        "swiggy_instamart": {
+            "price": 427,
+            "mrp": 427,
+            "in_stock": true
+        }
+    }
+}
