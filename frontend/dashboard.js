@@ -372,9 +372,10 @@
 
     // Build ticker items
     const items = suggestions.map(item => {
-      const icon = item.priority === 'high' ? '🔴' : '🟡';
-      return `<span class="ticker-item ticker-${item.priority}">
-        ${icon} <strong>${item.item}</strong> — ${item.suggestion} (${item.predicted_days_left}d left)
+      const icon = item.status === 'critical' ? '🔴' : item.status === 'warning' ? '🟡' : '🟢';
+      const suggestionText = item.status === 'critical' ? 'Restock immediately' : item.status === 'warning' ? 'Running low soon' : 'In good stock';
+      return `<span class="ticker-item ticker-${item.status}">
+        ${icon} <strong>${item.item_name}</strong> — ${suggestionText} (${item.days_left}d left)
       </span>`;
     }).join('');
 
